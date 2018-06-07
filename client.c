@@ -50,10 +50,10 @@ int connectServer(){
 	}
 	if(receiveConnection!= 0){
 		printf("Sem resposta do Servidor");
-		exit();
+		exit(EXIT_FAILURE);
 	}
 
-	prinf("Servidor respondendo corretamente");
+	printf("Servidor respondendo corretamente");
 	return serverSocket;
 }
 
