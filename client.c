@@ -1,4 +1,7 @@
+#include "connection.c"
+/*
 #include <stdio.h>
+//#include "client.h"
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
@@ -10,11 +13,10 @@
 
 typedef char byte;
 
-
 struct sockaddr_in clientAddress;
 struct sockaddr_in serverAddress;
 
-int connectServer(){
+int connectServer(char *ip){
 	int serverSocket = 0;
 	byte confirmConnection = 1;
 	byte receiveConnection;
@@ -28,8 +30,10 @@ int connectServer(){
 
 	serverAddress.sin_family = AF_INET;
 	serverAddress.sin_port = htons(PORT);
+	//127.0.0.1
+	//rodrigo 172.28.121.166
 
-	if(inet_pton(AF_INET,"127.0.0.1", &serverAddress.sin_addr)<= 0){
+	if(inet_pton(AF_INET,ip, &serverAddress.sin_addr)<= 0){
 		printf("\n Invalid Adrees");
 		return -1;
 	}
@@ -57,35 +61,33 @@ int connectServer(){
 	return serverSocket;
 }
 
-void closeConnection(int serverSocket){
+void closeConnectionClient(int serverSocket){
 	close(serverSocket);
 }
 
-int main(int argc, char const * argv[]){
-	int length = 1024;
-	char *buffer = (char *) malloc(sizeof(char *) * length);
-	int serverSocket;
-	serverSocket = connectServer();
-
-
-/*	
+int sendMessage(int serverSocket, byte *buffer, int length){
 	send(serverSocket, buffer, strlen(buffer),0);
-	printf("Hello message sent \n");
-	
+	return 0;
+}
 
-	if((valread = recv(serverSocket,buffer,length,0)) < 0){
+int receiveMessage(int serverSocket, int lenght, byte *buffer){
+	if(recv(serverSocket,buffer,length,0) < 0){
 		printf("Problema no recebimento da mensagem");
 		return(-1);
-	}
-	
-	if(buffer[0]== 'c'){
-		printf("Servidor respondendo\n");
-	}
-
-	//valread = read(socket,buffer,1024);
-	printf("%s\n", buffer);
+	}	
+	return 0;
+}
 */
-	closeConnection(serverSocket);
+
+int main(){
+	char *ip = "127.0.0.1";
+	byte *hello = "Helloooo do cliente";
+	char *buffer = malloc(sizeof(char) * 1024);
+	int sock = connectServer(ip);
+	receiveMessage(sock,buffer,1024);
+
+	sendMessage(sock,hello,strlen(hello));
+	printf("%s", buffer);
 
 	return 0;
 }
