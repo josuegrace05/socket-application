@@ -26,18 +26,29 @@ void Client::on_boutonConnexion_clicked()
 // Envoi d'un message au serveur
 void Client::on_boutonEnvoyer_clicked()
 {
-    QByteArray paquet;
-    QDataStream out(&paquet, QIODevice::WriteOnly);
+    QByteArray playlist;
+    QDataStream out(&playlist, QIODevice::WriteOnly);
 
-    // On prépare le paquet à envoyer
-    QString messageAEnvoyer = tr("<strong>") + pseudo->text() +tr("</strong> : ") + message->text();
+    // Preparing the playlist to be sent
+    QDir dir("../myMusic");
+    dir.setFilter(QDir::Files);
+    dir.setSorting(QDir::Name);
+    QFileInfoList allMusic = dir.entryInfoList();
 
+    //QString messageAEnvoyer = tr("<strong>") + pseudo->text() +tr("</strong> : ") + playlist->;
+    QString musicsNames = tr("<strong>") + pseudo->text() + " playlist:\n" + tr("</strong><br>");
+    for (int i = 0; i < allMusic.size(); i++)
+    {
+        QFileInfo musicInfo = allMusic.at(i);
+        musicsNames += QString("%1 ").arg(musicInfo.fileName());
+        musicsNames += "<br>";
+    }
     out << (quint16) 0;
-    out << messageAEnvoyer;
+    out << musicsNames;
     out.device()->seek(0);
-    out << (quint16) (paquet.size() - sizeof(quint16));
+    out << (quint16) (playlist.size() - sizeof(quint16));
 
-    socket->write(paquet); // On envoie le paquet
+    socket->write(playlist); // On envoie le paquet
 
     message->clear(); // On vide la zone d'écriture du message
     message->setFocus(); // Et on remet le curseur à l'intérieur
