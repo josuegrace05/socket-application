@@ -1,10 +1,12 @@
+#include "connection.c"
+/*
+#include <stdio.h>
 #include <stdio.h>
 #include <unistd.h>
 #include <stdlib.h>
 #include <string.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
-
 #define PORT 8080
 
 typedef char byte;
@@ -13,11 +15,11 @@ typedef char byte;
 struct sockaddr_in serverAddress; // struct que armazena o endereço do servidor
 struct sockaddr_in clientAddress; // struct que armazena o endereço do cliente
 
-int main(int argc, char const * argv[]){
-	
+int beServer(){
 	int serverSocket = 0, clientSocket, valread;
 	int opt = 1;
 	int addrlen = sizeof(serverAddress);
+	byte confirm;
 	int length = 1024;
 	byte *buffer = (byte *) malloc(sizeof(byte *) * length);
 	char *hello = "Testando se o cliente recebeu essa parada";
@@ -26,16 +28,15 @@ int main(int argc, char const * argv[]){
 		perror("Socket Failed");
 		exit(EXIT_FAILURE);
 	}
-/*
-*/
+
 	if(setsockopt(serverSocket,SOL_SOCKET,SO_REUSEADDR | SO_REUSEPORT,&opt,sizeof(opt))){
 		perror("setsockopt");
 		exit(EXIT_FAILURE);
 	}
+	
 	serverAddress.sin_family = AF_INET;
 	serverAddress.sin_addr.s_addr = INADDR_ANY;
 	serverAddress.sin_port = htons(PORT);
-
 
 	if(bind(serverSocket, (struct sockaddr *) &serverAddress, sizeof(serverAddress))<0){
 		perror("bind failed");
@@ -47,13 +48,28 @@ int main(int argc, char const * argv[]){
 		exit(EXIT_FAILURE);
 	}
 
-
 	if((clientSocket = accept(serverSocket, (struct sockaddr *)&serverAddress, (socklen_t *) &addrlen)) <0){
 		perror("accept");
 		exit(EXIT_FAILURE);
 	}
 
-	byte confirm;
+	return clientSocket;
+}
+
+
+*/
+int main(int argc, char const * argv[]){
+	int length = 1024;
+	byte *buffer = malloc(sizeof(char)*1024);
+	byte *hello = "Helloooo do servidoooor";
+	int sock = beServer();
+	
+	sendMessage(sock,hello,strlen(hello));
+	
+	receiveMessage(sock,buffer,length);
+	printf("\n%s",buffer);
+
+/*	
 
 	if((valread = recv(clientSocket,&confirm,sizeof(byte),0)) < 0){
 		printf("Problema no envio da mensagem");
@@ -77,6 +93,6 @@ int main(int argc, char const * argv[]){
 	free(buffer);
 	close(clientSocket);
 	close(serverSocket);
-	
+*/	
 	return 0;
 }
