@@ -4,7 +4,7 @@
 #include <stdlib.h>
 #include <dirent.h>
 
-#define MENU " --------------------------------------------\n|                                            |\n|                   SPOOF                    |\n|                                            |\n|  1 - Enviar uma playlist                   |\n|  2 - Ver suas playlists                    |\n|  3 - Ver todas as músicas                  |\n|  4 - Fazer uma playlist                    |\n|  5 - Menu de operações                     |\n|  6 - Virar um Servidor                     |\n|  7 - Se tornar um Cliente                  |\n|  8 - Sair                                  |\n|                                            |\n -------------------------------------------\n"
+#define MENU " --------------------------------------------\n|                                            |\n|                   SPOOF                    |\n|                                            |\n|  1 - Enviar uma playlist                   |\n|  2 - Ver suas playlists                    |\n|  3 - Ver suas as músicas                   |\n|  4 - Fazer uma playlist                    |\n|                                            |\n|  5 - Menu de operações                     |\n|  6 - Se tornar Servidor                    |\n|  7 - Se tornar Cliente                     |\n|  8 - Sair                                  |\n|                                            |\n -------------------------------------------\n"
 
 #define PROMPT ">> "
 
@@ -87,11 +87,11 @@ int main() {
                 clientSocket = beServer();
                 break;
             case 7:
-                printf("Digite o ip do servidor:\n");
+                printf("Digite o IP do servidor\n");
+                printf(PROMPT);
                 ip = read_line();
                 serverSocket = connectServer(ip);
                 break;
-
         }
         
     } while (op != 8);

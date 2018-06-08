@@ -22,7 +22,7 @@ int beServer(){
 		perror("Socket Failed");
 		exit(EXIT_FAILURE);
 	}
-	if(setsockopt(serverSocket,SOL_SOCKET,SO_REUSEADDR | SO_REUSEPORT,&opt,sizeof(opt))){
+    if(setsockopt(serverSocket,SOL_SOCKET,SO_REUSEADDR | SO_REUSEPORT,&opt,sizeof(opt))){
 		perror("setsockopt");
 		exit(EXIT_FAILURE);
 	}
