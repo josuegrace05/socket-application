@@ -18,6 +18,7 @@ void Client::on_boutonConnexion_clicked()
 {
     // On annonce sur la fenêtre qu'on est en train de se connecter
     listeMessages->append(tr("<em>Tentative de connexion en cours...</em>"));
+    boutonConnexion->setText("Connexion");
     boutonConnexion->setEnabled(false);
 
     socket->abort(); // On désactive les connexions précédentes s'il y en a
@@ -93,6 +94,7 @@ void Client::donneesRecues()
 void Client::connecte()
 {
     listeMessages->append(tr("<em>Connexion réussie !</em>"));
+    boutonConnexion->setText("Deconnecter");
     boutonConnexion->setEnabled(true);
 }
 // Ce slot est appelé lorsqu'on est déconnecté du serveur
