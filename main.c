@@ -27,7 +27,7 @@ char *read_line() {
 }
 
 int main() {
-    int op = 0, i = 0, n;
+    int op = 0, i = 0, count = 0, n;
     char *ip;
     int serverSocket, clientSocket;
     char *string, *new;
@@ -74,8 +74,21 @@ int main() {
                 memcpy(new, "./playlists/", sizeof(char)*12);
                 strcat(new,string);
                 printf("%s\n", new);
-                
+    
                 fp = fopen(new, "w+");
+                /*
+                printf("Liste as músicas que deseja adicionar a playlist\n");
+                
+                dir = opendir("./myMusic");
+                count = 0;
+                
+                while ((de = readdir (dir)) != NULL) {
+                    printf("%d: %s\n", de->d_name);
+                    count++;
+                }
+                
+                
+                closedir(dir);*/
                 fclose(fp);
                 free(string);
                 free(new);
@@ -84,7 +97,7 @@ int main() {
                 printf(MENU);
                 break;
             case 6:
-                clientSocket = beServer();
+                clientSocket = beServer(&serverSocket);
                 break;
             case 7:
                 printf("Digite o IP do servidor\n");
