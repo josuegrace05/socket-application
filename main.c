@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <string.h>
 #include <stdlib.h>
 #include <dirent.h>
 
@@ -6,64 +7,78 @@
 
 #define PROMPT ">> "
 
+// função de leitura de string do stdin
 char *read_line() {
-    char *string = NULL;
-    char c;
     int i = 0;
+    char c;
+    char *string = NULL;
+    
+    fgetc(stdin);
     
     do {
-        c = fgetc(stdin);
-        string = (char *) realloc (string, sizeof(char)*(i+1));
+        scanf("%c", &c);
+        string = (char *) realloc(string, sizeof(char)*(i+1));
         string[i++] = c;
     } while (c != 10);
-    string[i-i] = '\0';
+    string[i-1] = '\0';
     
     return string;
 }
 
 int main() {
     int op = 0, i = 0, n;
-    char *string;
+    char *string, *new;
     struct dirent *de;
     DIR *dir;
+    FILE *fp;
     
-    printf(MENU);
-    printf(PROMPT);
+    printf(MENU); // interface do menu
     
     do {
+        printf(PROMPT); // prompt do usuário para receber comandos
         scanf ("%d", &op);
         switch (op) {
             case 1:
                 printf("Digite o nome da playlist que deseja enviar\n");
                 printf(PROMPT);
+                
                 string = read_line();
-                printf("%s\n", string);
+                // enviar para o cliente o arquivo
                 free(string);
                 break;
-            case 2:
+            case 2: // imprimi todas as playlists do diretório
                 dir = opendir("./playlists");
                 
                 while ((de = readdir (dir)) != NULL)
                     printf("%s\n", de->d_name);
                 
                 closedir(dir);
-                printf(PROMPT);
                 break;
-            case 3:
+            case 3: // imprimi todas as músicas do diretório
                 dir = opendir("./myMusic");
                 
                 while ((de = readdir (dir)) != NULL)
                     printf("%s\n", de->d_name);
                 
                 closedir(dir);
-                printf(PROMPT);
                 break;
-            case 4:
+            case 4: // lê o nome da nova playlist e cria ela no dir ./playlists, mas não edita
+                printf("Digite o nome da playlist que deseja criar\n");
                 printf(PROMPT);
+                 
+                string = read_line();
+                new = (char *) malloc(sizeof(char)*(strlen(string)+12));
+                memcpy(new, "./playlists/", sizeof(char)*12);
+                strcat(new,string);
+                printf("%s\n", new);
+                
+                fp = fopen(new, "w+");
+                fclose(fp);
+                free(string);
+                free(new);
                 break;
             case 5:
                 printf(MENU);
-                printf(PROMPT);
                 break;
         }
         
