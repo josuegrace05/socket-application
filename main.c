@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include "connection.c"
 #include <string.h>
 #include <stdlib.h>
 #include <dirent.h>
@@ -27,6 +28,8 @@ char *read_line() {
 
 int main() {
     int op = 0, i = 0, n;
+    char *ip;
+    int serverSocket, clientSocket;
     char *string, *new;
     struct dirent *de;
     DIR *dir;
@@ -80,9 +83,18 @@ int main() {
             case 5:
                 printf(MENU);
                 break;
+            case 6:
+                clientSocket = beServer();
+                break;
+            case 7:
+                printf("Digite o ip do servidor:\n");
+                ip = read_line();
+                serverSocket = connectServer(ip);
+                break;
+
         }
         
-    } while (op != 6);
+    } while (op != 8);
     
     return 0;
 }
