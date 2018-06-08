@@ -4,6 +4,7 @@
 #include <QWidget>
 #include <QtNetwork>
 #include <QDir>
+#include <QStringListModel>
 #include "ui_chat2.h"
 
 class Client : public QWidget, private Ui::chat2

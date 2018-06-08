@@ -17,6 +17,7 @@
 #include <QtGui/QHeaderView>
 #include <QtGui/QLabel>
 #include <QtGui/QLineEdit>
+#include <QtGui/QListView>
 #include <QtGui/QPushButton>
 #include <QtGui/QSpacerItem>
 #include <QtGui/QSpinBox>
@@ -40,7 +41,9 @@ public:
     QVBoxLayout *verticalLayout;
     QLabel *label_5;
     QLabel *label_6;
+    QHBoxLayout *horizontalLayout_3;
     QTextEdit *listeMessages;
+    QListView *conectedList;
     QHBoxLayout *horizontalLayout_2;
     QLabel *label_3;
     QLineEdit *pseudo;
@@ -119,11 +122,21 @@ public:
 
         verticalLayout_2->addLayout(horizontalLayout);
 
+        horizontalLayout_3 = new QHBoxLayout();
+        horizontalLayout_3->setObjectName(QString::fromUtf8("horizontalLayout_3"));
         listeMessages = new QTextEdit(chat2);
         listeMessages->setObjectName(QString::fromUtf8("listeMessages"));
         listeMessages->setReadOnly(true);
 
-        verticalLayout_2->addWidget(listeMessages);
+        horizontalLayout_3->addWidget(listeMessages);
+
+        conectedList = new QListView(chat2);
+        conectedList->setObjectName(QString::fromUtf8("conectedList"));
+
+        horizontalLayout_3->addWidget(conectedList);
+
+
+        verticalLayout_2->addLayout(horizontalLayout_3);
 
         horizontalLayout_2 = new QHBoxLayout();
         horizontalLayout_2->setObjectName(QString::fromUtf8("horizontalLayout_2"));

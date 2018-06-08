@@ -125,6 +125,9 @@
        </property>
       </widget>
      </item>
+     <item>
+      <widget class="QListView" name="conectedList"/>
+     </item>
     </layout>
    </item>
    <item>

@@ -32,16 +32,20 @@ Server::Server()
     m_messSize = 0;
     connect(m_exit,SIGNAL(clicked(bool)),qApp,SLOT(quit()));
 }
+
 void Server::newConection()
 {
-    sendToAll(tr("<em>Un nouveau client vient de se connecter</em>"));
 
-    QTcpSocket *newClient = m_server->nextPendingConnection();
+    QTcpSocket *newClient = m_server->nextPendingConnection();//Get the address of the client connected
+
+    QString clientInfos = QString("<strong> New Client:</strong><br>IP Address: %1. Port: %2").arg(newClient->peerAddress().toString()).arg(newClient->peerPort());
+    sendToAll(clientInfos);
+
     m_clients << newClient;
 
-    connect(newClient,SIGNAL(readyRead()),this, SLOT(receivedData()));
-    connect(newClient, SIGNAL(disconnected()), this, SLOT(disconectClient()));
-  }
+    connect(newClient,SIGNAL(readyRead()),this, SLOT(receivedData()));//Signal emited when a client has sent a message
+    connect(newClient, SIGNAL(disconnected()), this, SLOT(disconectClient()));//Signal emited when a client disconnected
+}
 void Server::receivedData()
 {
     QTcpSocket *socket = qobject_cast<QTcpSocket *>(sender());
@@ -51,33 +55,33 @@ void Server::receivedData()
 
     QDataStream in(socket);
 
-    if(m_messSize == 0)//if we dont know the message size, we try to get it back
+    if(m_messSize == 0)//we started receiving data.
     {
-        if(socket->bytesAvailable() < (int)sizeof(quint16))
-            return; //we dont have the entirely mess size
-        in >> m_messSize; //we get back the entirely mess size
+        if(socket->bytesAvailable() < (int)sizeof(quint16)) //We check if we have sufficient data to get the size of the message
+            return; //we dont have the entirely mess yet
+        in >> m_messSize; //the entirely message arrived, we get back his size
 
     }
 
-    if(socket->bytesAvailable() < m_messSize)
+    if(socket->bytesAvailable() < m_messSize) //We received enough data to know the size of the message. Now we wait until we received all the data
         return; // we stop here if we dont have all the message
 
-    QString message; //here we have all the message. We get it
+    QString message; //here we have all the message. We get it.
     in >> message;
 
     sendToAll(message);//send it to every body
-    m_messSize = 0; //get back the message size to zero
+    m_messSize = 0; //get back the message size to zero to receive messages of others clientes.
 }
 void Server::disconectClient()
 {
     sendToAll(tr("<em>Un client vient de se deconnecter</em>"));
     QTcpSocket *socket = qobject_cast<QTcpSocket *>(sender());
-    //determnied who disconected
-    if(socket == 0)//we didnt identify who disconected
+    //determined who disconected
+    if(socket == 0)//the object was not a TcpSocket
         return;
 
     m_clients.removeOne(socket);
-    socket->deleteLater();//We cannot do delete Client bcz it will  bug Qt. We just say to him to delete it later.
+    socket->deleteLater();//We cannot do delete Client bcz it will bug Qt. We just say to him to delete it later.
 
 }
 void Server::sendToAll(const QString &message)
