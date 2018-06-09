@@ -4,8 +4,8 @@ HEADERS += \
 
 SOURCES += \
     server.cpp \
-    main.cpp \
-    client.cpp
+    client.cpp \
+    main.cpp
 
 TEMPLATE = app
 QT += widgets network
