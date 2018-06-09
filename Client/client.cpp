@@ -5,6 +5,7 @@ Client::Client()
     setupUi(this);
 
         socket = new QTcpSocket(this);
+        m_playlistModel = new QStringListModel;
         connect(socket, SIGNAL(readyRead()), this, SLOT(donneesRecues()));
         connect(socket, SIGNAL(connected()), this, SLOT(connecte()));
         connect(socket, SIGNAL(disconnected()), this, SLOT(deconnecte()));
@@ -52,7 +53,7 @@ void Client::on_boutonEnvoyer_clicked()
     QFileInfoList allMusic = dir.entryInfoList();
 
     //QString messageAEnvoyer = tr("<strong>") + pseudo->text() +tr("</strong> : ") + playlist->;
-    QString musicsNames = tr("<strong>") + pseudo->text() + " playlist:\n" + tr("</strong><br>");
+    QString musicsNames = tr("<strong>") + " playlist:\n" + tr("</strong><br>");
     for (int i = 0; i < allMusic.size(); i++)
     {
         QFileInfo musicInfo = allMusic.at(i);
@@ -89,9 +90,37 @@ void Client::on_folderButton_clicked()
    }
 
    //list << musicsNames;
-   QStringListModel *model = new QStringListModel(QStringList(list));
-   playlist->setModel(model);
+   m_playlistModel->setStringList(QStringList(list));
+   playlist->setModel(m_playlistModel);
    playlist->setSelectionMode(QAbstractItemView::ExtendedSelection);
+}
+void Client::on_sharePlaylistButton_clicked()
+{
+    QStringList musics = m_playlistModel->stringList();
+
+    if(musics.isEmpty())
+    {
+        QMessageBox::critical(this,"Erro","A sua playlist esta vazia. Selecione primeiro uma playlist.");
+        return;
+    }
+
+    if(userIp->text().isEmpty())
+     {
+        QMessageBox::critical(this,"Erro","Por favor define o IP do usuario com quem quer compartilhar.");
+        return;
+     }
+
+    QByteArray package;
+    QDataStream out(&package,QIODevice::WriteOnly);
+    QString cmd("playlist:");
+    cmd += userIp->text() + ":";
+
+    out << (quint16)0;out << cmd;out << musics;
+    out.device()->seek(0);
+    out << (quint16) (package.size() - sizeof(quint16));
+
+    socket->write(package);
+
 }
 void Client::on_message_returnPressed()
 {

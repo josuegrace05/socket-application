@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>628</width>
-    <height>480</height>
+    <width>802</width>
+    <height>526</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -23,7 +23,7 @@
      <item>
       <widget class="QLabel" name="label">
        <property name="text">
-        <string>IP du serveur :</string>
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;IP do servidor :&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
        </property>
       </widget>
      </item>
@@ -43,7 +43,7 @@
      <item>
       <widget class="QLabel" name="label_2">
        <property name="text">
-        <string>Port du serveur :</string>
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Porta do servidor :&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
        </property>
       </widget>
      </item>
@@ -69,7 +69,14 @@
      <item>
       <widget class="QPushButton" name="boutonConnexion">
        <property name="text">
-        <string>Connexion</string>
+        <string>Connectar</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="disconnectButton">
+       <property name="text">
+        <string>Desconnectar</string>
        </property>
       </widget>
      </item>
@@ -104,8 +111,11 @@
            <bold>false</bold>
           </font>
          </property>
+         <property name="layoutDirection">
+          <enum>Qt::LeftToRight</enum>
+         </property>
          <property name="text">
-          <string>Music - Share</string>
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;MusicSharing&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
          </property>
          <property name="alignment">
           <set>Qt::AlignCenter</set>
@@ -192,12 +202,12 @@
      <item>
       <widget class="QLabel" name="label_3">
        <property name="text">
-        <string>Pseudo :</string>
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;IP do usuario :&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QLineEdit" name="pseudo">
+      <widget class="QLineEdit" name="userIp">
        <property name="maximumSize">
         <size>
          <width>100</width>
@@ -209,7 +219,7 @@
      <item>
       <widget class="QLabel" name="label_4">
        <property name="text">
-        <string>Message :</string>
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Mensagem :&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
        </property>
       </widget>
      </item>
@@ -219,11 +229,29 @@
      <item>
       <widget class="QPushButton" name="boutonEnvoyer">
        <property name="text">
-        <string>Envoyer</string>
+        <string>Mandar</string>
        </property>
        <property name="icon">
         <iconset>
          <normaloff>chat.png</normaloff>chat.png</iconset>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout_5">
+     <item>
+      <widget class="QPushButton" name="sharePlaylistButton">
+       <property name="text">
+        <string>Compartilhar playlist</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="ShareMusicButton">
+       <property name="text">
+        <string>Compartilhar musicas</string>
        </property>
       </widget>
      </item>
