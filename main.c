@@ -27,9 +27,10 @@ char *read_line() {
 }
 
 int main() {
-    int op = 0, i = 0, count = 0, n;
+    int op = 0, i = 0, count = 0, n, m = 99;
     char *ip;
     int serverSocket, clientSocket;
+    int *array = NULL;
     char *string, *new;
     struct dirent *de;
     DIR *dir;
@@ -65,7 +66,7 @@ int main() {
                 
                 closedir(dir);
                 break;
-            case 4: // lê o nome da nova playlist e cria ela no dir ./playlists, mas não edita
+            case 4: // lê o nome da nova playlist e cria ela no dir ./playlists, adicionando as músicas desejadas
                 printf("Digite o nome da playlist que deseja criar\n");
                 printf(PROMPT);
                  
@@ -76,19 +77,37 @@ int main() {
                 printf("%s\n", new);
     
                 fp = fopen(new, "w+");
-                /*
-                printf("Liste as músicas que deseja adicionar a playlist\n");
+                
+                printf("Liste as músicas que deseja adicionar a playlist, quando terminar digite 0\n");
                 
                 dir = opendir("./myMusic");
-                count = 0;
                 
-                while ((de = readdir (dir)) != NULL) {
-                    printf("%d: %s\n", de->d_name);
+                count = 0;
+                while ((de = readdir (dir)) != NULL) { // imprimi a lista de músicas para escolha
+                    printf("%d: %s\n", count+1, de->d_name);
                     count++;
                 }
                 
+                array = (int *) calloc(count,sizeof(int));
+                while (m != 0) { // marca as músicas que serão adicionadas
+                    printf(PROMPT);
+                    scanf("%d", &m);
+                    if (m != 0) array[m-1] = 1;
+                }
                 
-                closedir(dir);*/
+                closedir(dir);
+                dir = opendir("./myMusic");
+                
+                count = 0;
+                while ((de = readdir (dir)) != NULL) { // adiciona no .txt apenas as músicas marcadas
+                    if (array[count] == 1)
+                        fprintf(fp, "%s\n", de->d_name);
+                    count++;
+                }
+                
+                printf("Playlist criada com sucesso\n");
+                
+                closedir(dir);
                 fclose(fp);
                 free(string);
                 free(new);

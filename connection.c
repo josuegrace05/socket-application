@@ -22,6 +22,7 @@ int beServer(int *serverSocket){
 		perror("Socket Failed");
 		exit(EXIT_FAILURE);
 	}
+    
     if(setsockopt(*serverSocket,SOL_SOCKET,SO_REUSEADDR | SO_REUSEPORT,&opt,sizeof(opt))){
 		perror("setsockopt");
 		exit(EXIT_FAILURE);
@@ -50,7 +51,7 @@ int beServer(int *serverSocket){
 	}
 
 	if(confirm == 1){
-		printf("tentativa de comunicaçao do cliente funfando\n");
+		printf("Tentativa de comunicação do cliente bem sucedida\n");
 	}
 	confirm = 0;
 	
