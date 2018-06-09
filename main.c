@@ -69,18 +69,16 @@ int main() {
             case 4: // lê o nome da nova playlist e cria ela no dir ./playlists, adicionando as músicas desejadas
                 printf("Digite o nome da playlist que deseja criar\n");
                 printf(PROMPT);
-                 
                 string = read_line();
+                
                 new = (char *) malloc(sizeof(char)*(strlen(string)+12));
                 memcpy(new, "./playlists/", sizeof(char)*12);
                 strcat(new,string);
-                printf("%s\n", new);
-    
-                fp = fopen(new, "w+");
                 
                 printf("Liste as músicas que deseja adicionar a playlist, quando terminar digite 0\n");
                 
                 dir = opendir("./myMusic");
+                fp = fopen(new, "w+");
                 
                 count = 0;
                 while ((de = readdir (dir)) != NULL) { // imprimi a lista de músicas para escolha
@@ -112,13 +110,13 @@ int main() {
                 free(string);
                 free(new);
                 break;
-            case 5:
+            case 5: // imprimi o menu de operações
                 printf(MENU);
                 break;
-            case 6:
+            case 6: // se comporta como servidor
                 clientSocket = beServer(&serverSocket);
                 break;
-            case 7:
+            case 7: // se comporta como cliente
                 printf("Digite o IP do servidor\n");
                 printf(PROMPT);
                 ip = read_line();
@@ -126,7 +124,7 @@ int main() {
                 break;
         }
         
-    } while (op != 8);
+    } while (op != 8); // encerra o programa
     
     return 0;
 }
