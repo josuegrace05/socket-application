@@ -34,7 +34,7 @@ static const uint qt_meta_data_Server[] = {
       23,    7,    7,    7, 0x08,
       38,    7,    7,    7, 0x08,
       75,   56,    7,    7, 0x08,
-     129,  119,  107,    7, 0x08,
+     125,  115,  107,    7, 0x08,
 
        0        // eod
 };
@@ -42,8 +42,8 @@ static const uint qt_meta_data_Server[] = {
 static const char qt_meta_stringdata_Server[] = {
     "Server\0\0newConection()\0receivedData()\0"
     "disconectClient()\0username,ipAddress\0"
-    "updateUsername(QString,QString)\0"
-    "QTcpSocket*\0ipAddress\0isClientConnected(QString)\0"
+    "updateUsername(QString,QString)\0Client*\0"
+    "ipAddress\0isClientConnected(QString)\0"
 };
 
 void Server::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void **_a)
@@ -56,8 +56,8 @@ void Server::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void
         case 1: _t->receivedData(); break;
         case 2: _t->disconectClient(); break;
         case 3: _t->updateUsername((*reinterpret_cast< QString(*)>(_a[1])),(*reinterpret_cast< QString(*)>(_a[2]))); break;
-        case 4: { QTcpSocket* _r = _t->isClientConnected((*reinterpret_cast< QString(*)>(_a[1])));
-            if (_a[0]) *reinterpret_cast< QTcpSocket**>(_a[0]) = _r; }  break;
+        case 4: { Client* _r = _t->isClientConnected((*reinterpret_cast< QString(*)>(_a[1])));
+            if (_a[0]) *reinterpret_cast< Client**>(_a[0]) = _r; }  break;
         default: ;
         }
     }

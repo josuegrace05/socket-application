@@ -53,11 +53,11 @@ void Server::updateUsername(QString username, QString ipAddress)
         if(m_clients[i]->ipAddress() == ipAddress && m_clients[i]->username() == tag)
             m_clients[i]->addUsername(QString("%1%2").arg("@").arg(username));
 }
-QTcpSocket* Server::isClientConnected(QString ipAddress)
+Client* Server::isClientConnected(QString ipAddress)
 {
     for(int i = 0; i < m_clients.size(); i++)
         if(m_clients[i]->ipAddress() == ipAddress)
-            return m_clients[i]->id();
+            return m_clients[i];
     return NULL;
 }
 void Server::receivedData()
@@ -85,7 +85,7 @@ void Server::receivedData()
     if(message.contains("username",Qt::CaseInsensitive))
         updateUsername(message.section(':',1,1),socket->peerAddress().toString());
 
-    else if(message.contains(("list"),Qt::CaseSensitive))
+    else if(message.contains(("connected"),Qt::CaseSensitive))
     {
         QString list;
         for(int i = 0; i < m_clients.size(); i++)
@@ -95,11 +95,10 @@ void Server::receivedData()
 
     else if(message.contains("playlist",Qt::CaseSensitive))
     {
-        QMessageBox::critical(this,"Test",message.section(':',2));
 
-        QTcpSocket *peerId = isClientConnected(message.section(':',1,1));
+        Client *peerId = isClientConnected(message.section(':',1,1));
         if(peerId != NULL)
-            sendToClient(peerId,message.section(':',2));
+            sendToClient(peerId->id(),QString("%1 playlist:<br>%2").arg(peerId->username()).arg(message.section(':',2)));
         else
             sendToClient(socket,QString("O <strong>%1</strong> nao esta conectado. Tente mais tarde<br>."));
     }

@@ -35,7 +35,7 @@ void Client::on_updateButton_clicked()
     QByteArray cmd;
     QDataStream out(&cmd, QIODevice::WriteOnly);
     out << (quint16) 0;
-    out << QString("list");
+    out << QString("connected");
     out.device()->seek(0);
     out << (quint16) (cmd.size() - sizeof(quint16));
     socket->write(cmd);
@@ -113,9 +113,14 @@ void Client::on_sharePlaylistButton_clicked()
     QByteArray package;
     QDataStream out(&package,QIODevice::WriteOnly);
     QString cmd("playlist:");
-    cmd += userIp->text() + ":";
+    cmd += userIp->text() + ":<br>";
 
-    out << (quint16)0;out << cmd;out << musics;
+    out << (quint16)0;
+
+    for(int i = 0; i < musics.size(); i++)
+        cmd += musics[i] + "<br>";
+
+    out << cmd;
     out.device()->seek(0);
     out << (quint16) (package.size() - sizeof(quint16));
 
@@ -180,7 +185,7 @@ void Client::connecte()
 // Ce slot est appelé lorsqu'on est déconnecté du serveur
 void Client::deconnecte()
 {
-    listeMessages->append(tr("<em>Déconnecté du serveur</em>"));
+    listeMessages->append(tr("<em>Desconectado do servidor</em>"));
 }
 // Ce slot est appelé lorsqu'il y a une erreur
 void Client::erreurSocket(QAbstractSocket::SocketError erreur)
