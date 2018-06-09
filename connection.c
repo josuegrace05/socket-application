@@ -116,7 +116,8 @@ int sendMessage(int serverSocket, byte *buffer, int length){
 }
 
 int receiveMessage(int serverSocket,byte *buffer, int length){
-	if(recv(serverSocket,(void*)buffer,length,0) < 0){
+	int tam;
+	if((tam = recv(serverSocket,(void*)buffer,length,0)) < 0){
 		printf("Problema no recebimento da mensagem");
 		perror("listen");
 		exit(EXIT_FAILURE);

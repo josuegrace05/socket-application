@@ -1,7 +1,7 @@
 #ifndef MUSIC_FOLDER_H
 #define MUSIC_FOLDER_H
 
-#include <string>
+//#include <string>
 #include <iostream>
 #include <dirent.h>
 #include <string.h>
