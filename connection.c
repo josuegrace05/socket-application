@@ -9,8 +9,8 @@ struct sockaddr_in clientAddress;
 struct sockaddr_in serverAddress;
 
 
-int beServer(){
-	int serverSocket = 0, clientSocket, valread;
+int beServer(int *serverSocket){
+	int clientSocket, valread;
 	int opt = 1;
 	int addrlen = sizeof(serverAddress);
 	byte confirm;
@@ -18,11 +18,12 @@ int beServer(){
 	byte *buffer = (byte *) malloc(sizeof(byte *) * length);
 	char *hello = "Testando se o cliente recebeu essa parada";
  
-	if((serverSocket = socket(AF_INET, SOCK_STREAM, 0)) == 0 ){ //
+	if((*serverSocket = socket(AF_INET, SOCK_STREAM, 0)) == 0 ){ //
 		perror("Socket Failed");
 		exit(EXIT_FAILURE);
 	}
-	if(setsockopt(serverSocket,SOL_SOCKET,SO_REUSEADDR | SO_REUSEPORT,&opt,sizeof(opt))){
+    
+    if(setsockopt(*serverSocket,SOL_SOCKET,SO_REUSEADDR | SO_REUSEPORT,&opt,sizeof(opt))){
 		perror("setsockopt");
 		exit(EXIT_FAILURE);
 	}
@@ -30,15 +31,15 @@ int beServer(){
 	serverAddress.sin_addr.s_addr = INADDR_ANY;
 	serverAddress.sin_port = htons(PORT);
 
-	if(bind(serverSocket, (struct sockaddr *) &serverAddress, sizeof(serverAddress))<0){
+	if(bind(*serverSocket, (struct sockaddr *) &serverAddress, sizeof(serverAddress))<0){
 		perror("bind failed");
 		exit(EXIT_FAILURE);
 	}
-	if(listen(serverSocket,3)<0){
+	if(listen(*serverSocket,3)<0){
 		perror("listen");
 		exit(EXIT_FAILURE);
 	}
-	if((clientSocket = accept(serverSocket, (struct sockaddr *)&serverAddress, (socklen_t *) &addrlen)) <0){
+	if((clientSocket = accept(*serverSocket, (struct sockaddr *)&serverAddress, (socklen_t *) &addrlen)) <0){
 		perror("accept");
 		exit(EXIT_FAILURE);
 	}
@@ -50,7 +51,7 @@ int beServer(){
 	}
 
 	if(confirm == 1){
-		printf("tentativa de comunicaçao do cliente funfando\n");
+		printf("Tentativa de comunicação do cliente bem sucedida\n");
 	}
 	confirm = 0;
 	
