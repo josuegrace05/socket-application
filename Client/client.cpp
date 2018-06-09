@@ -99,9 +99,16 @@ void Client::on_sharePlaylistButton_clicked()
     QStringList musics = m_playlistModel->stringList();
 
     if(musics.isEmpty())
+    {
         QMessageBox::critical(this,"Erro","A sua playlist esta vazia. Selecione primeiro uma playlist.");
+        return;
+    }
+
     if(userIp->text().isEmpty())
+     {
         QMessageBox::critical(this,"Erro","Por favor define o IP do usuario com quem quer compartilhar.");
+        return;
+     }
 
     QByteArray package;
     QDataStream out(&package,QIODevice::WriteOnly);
