@@ -1,6 +1,6 @@
-#include <stdio.h>                                           
+#include <stdio.h>
 #include "connection.c"
-//#include "music_folder.cpp"
+#include "music_folder.cpp"
 #include <string.h>
 #include <stdlib.h>
 #include <dirent.h>
@@ -28,24 +28,14 @@ char *readline(FILE *arq_entrada){
     return string;                                                           //retorna a string
 }
 
-//dado um nome de arquivo, retorna um buffer com todo o conteudo
-byte *fileToByte(char *name){
+void sendListTest(int serverSocket, int clientSocket){
     FILE *fp;
     int tam;
     char *buffer;
-    fp = fopen(name, "r");
-
-    fseek(fp,0,SEEK_END);
+    fp = fopen("mymadness", "r");
+    fseek(fp,SEEK_END,0);
     tam = ftell(fp);
-    fseek(fp,0,SEEK_SET);
-
-    buffer = malloc(sizeof(char) * (tam+1));
-    buffer[tam] = '\0';
-    fread(buffer,sizeof(char),tam,fp);
-    fclose(fp);
-    // sendMessage(serverSocket,buffer,tam);
-    //printf("%s %d\n",buffer,tam);
-    return buffer;
+    fseek(fp,SEEK_SET,0);
 }
 
 
@@ -64,7 +54,6 @@ int main() {
     do {
         printf(PROMPT); // prompt do usuário para receber comandos
         scanf ("%d", &op);
-        fgetc(stdin);
         switch (op) {
             case 1:
                 printf("Digite o nome da playlist que deseja enviar\n");
@@ -138,11 +127,7 @@ int main() {
                 printf(MENU);
                 break;
             case 6: // se comporta como servidor
-                
                 clientSocket = beServer(&serverSocket);
-                char *buffer = malloc(sizeof(char)*1024);
-                receiveMessage(clientSocket,buffer,1024);
-                printf("%s\n",buffer);
                 break;
             case 7: // se comporta como cliente
                 printf("Digite o IP do servidor\n");
@@ -151,7 +136,7 @@ int main() {
                 serverSocket = connectServer(ip);
                 break;
             case 8: // Manda a lista para o outro
-                //sendListTest(serverSocket,clientSocket);
+                sendListTest(serverSocket,clientSocket);
                 break;
         }
         
