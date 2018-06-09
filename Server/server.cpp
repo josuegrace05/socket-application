@@ -95,6 +95,8 @@ void Server::receivedData()
 
     else if(message.contains("playlist",Qt::CaseSensitive))
     {
+        QMessageBox::critical(this,"Test",message.section(':',2));
+
         QTcpSocket *peerId = isClientConnected(message.section(':',1,1));
         if(peerId != NULL)
             sendToClient(peerId,message.section(':',2));

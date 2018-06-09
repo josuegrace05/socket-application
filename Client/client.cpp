@@ -120,6 +120,7 @@ void Client::on_sharePlaylistButton_clicked()
     out << (quint16) (package.size() - sizeof(quint16));
 
     socket->write(package);
+    listeMessages->append("<em>Playlist mandado com sucesso!</em>");
 
 }
 void Client::on_message_returnPressed()
@@ -187,16 +188,16 @@ void Client::erreurSocket(QAbstractSocket::SocketError erreur)
     switch(erreur) // On affiche un message différent selon l'erreur qu'on nous indique
     {
         case QAbstractSocket::HostNotFoundError:
-            listeMessages->append(tr("<em>ERREUR : le serveur n'a pas pu être trouvé. Vérifiez l'IP et le port.</em>"));
+            listeMessages->append(tr("<em>ERRO : O servidor não foi encontrado. Verifique o IP e a porta.</em>"));
             break;
         case QAbstractSocket::ConnectionRefusedError:
-            listeMessages->append(tr("<em>ERREUR : le serveur a refusé la connexion. Vérifiez si le programme \"serveur\" a bien été lancé. Vérifiez aussi l'IP et le port.</em>"));
+            listeMessages->append(tr("<em>ERRO : O servidor recusou a conexao. Verificar se o programa \"servidor\" não foi bem executado. Verfique tambem o IP e a porta.</em>"));
             break;
         case QAbstractSocket::RemoteHostClosedError:
-            listeMessages->append(tr("<em>ERREUR : le serveur a coupé la connexion.</em>"));
+            listeMessages->append(tr("<em>ERRO : O servidor cortou a conexao.</em>"));
             break;
         default:
-            listeMessages->append(tr("<em>ERREUR : ") + socket->errorString() + tr("</em>"));
+            listeMessages->append(tr("<em>ERRO : ") + socket->errorString() + tr("</em>"));
     }
 
     boutonConnexion->setEnabled(true);
