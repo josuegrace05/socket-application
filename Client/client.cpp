@@ -16,12 +16,28 @@ Client::Client()
 // Tentative de connexion au serveur
 void Client::on_boutonConnexion_clicked()
 {
-    // On annonce sur la fenêtre qu'on est en train de se connecter
-    listeMessages->append(tr("<em>Tentative de connexion en cours...</em>"));
-    boutonConnexion->setEnabled(false);
+    //Show on the GUI that we are connecting
+    listeMessages->append(tr("<em>Tentativa de connexao...</em>"));
+    if(usernameValue->text().isEmpty())
+    {
+        QMessageBox::critical(this,"Erro","Username vazio");
+        return;
+    }
 
-    socket->abort(); // On désactive les connexions précédentes s'il y en a
-    socket->connectToHost(serveurIP->text(), serveurPort->value()); // On se connecte au serveur demandé
+    boutonConnexion->setEnabled(false);
+    socket->abort(); // We abort previous conexions if they exist
+    socket->connectToHost(serveurIP->text(), serveurPort->value()); // We connect on the server specified
+}
+//List all clients connected requisition
+void Client::on_updateButton_clicked()
+{
+    QByteArray cmd;
+    QDataStream out(&cmd, QIODevice::WriteOnly);
+    out << (quint16) 0;
+    out << QString("list");
+    out.device()->seek(0);
+    out << (quint16) (cmd.size() - sizeof(quint16));
+    socket->write(cmd);
 }
 // Envoi d'un message au serveur
 void Client::on_boutonEnvoyer_clicked()
@@ -54,9 +70,36 @@ void Client::on_boutonEnvoyer_clicked()
     message->setFocus(); // Et on remet le curseur à l'intérieur
 }
 // Appuyer sur la touche Entrée a le même effet que cliquer sur le bouton "Envoyer"
+void Client::on_folderButton_clicked()
+{
+   QString musicFolder = QFileDialog::getExistingDirectory(this);
+
+   QDir dir(musicFolder);
+   dir.setFilter(QDir::Files);
+   dir.setSorting(QDir::Name);
+   QFileInfoList allMusic = dir.entryInfoList();
+
+   //QString messageAEnvoyer = tr("<strong>") + pseudo->text() +tr("</strong> : ") + playlist->;
+   //QString musicsNames = tr("<strong>")+" playlist:"+tr("</strong><br>");
+   QStringList list;
+   for (int i = 0; i < allMusic.size(); i++)
+   {
+       QFileInfo musicInfo = allMusic.at(i);
+       list << QString("%1").arg(musicInfo.fileName());
+   }
+
+   //list << musicsNames;
+   QStringListModel *model = new QStringListModel(QStringList(list));
+   playlist->setModel(model);
+   playlist->setSelectionMode(QAbstractItemView::ExtendedSelection);
+}
 void Client::on_message_returnPressed()
 {
    this->on_boutonEnvoyer_clicked();
+}
+void Client::on_usernameValue_returnPressed()
+{
+    this->on_boutonConnexion_clicked();
 }
 // On a reçu un paquet (ou un sous-paquet)
 void Client::donneesRecues()
@@ -92,7 +135,16 @@ void Client::donneesRecues()
 // Ce slot est appelé lorsque la connexion au serveur a réussi
 void Client::connecte()
 {
-    listeMessages->append(tr("<em>Connexion réussie !</em>"));
+    listeMessages->append(tr("<em>Connectado com successo !</em>"));
+    QByteArray username;
+    QDataStream out(&username, QIODevice::WriteOnly);
+    QString aux("username:");
+    out << (quint16) 0;
+    out << aux + usernameValue->text();
+    out.device()->seek(0);
+    out << (quint16) (username.size() - sizeof(quint16));
+
+    socket->write(username);
     boutonConnexion->setEnabled(true);
 }
 // Ce slot est appelé lorsqu'on est déconnecté du serveur

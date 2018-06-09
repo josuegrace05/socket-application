@@ -41,9 +41,15 @@ public:
     QVBoxLayout *verticalLayout;
     QLabel *label_5;
     QLabel *label_6;
+    QHBoxLayout *horizontalLayout_4;
+    QLabel *label_7;
+    QLineEdit *usernameValue;
+    QSpacerItem *horizontalSpacer_2;
+    QPushButton *updateButton;
+    QPushButton *folderButton;
     QHBoxLayout *horizontalLayout_3;
+    QListView *playlist;
     QTextEdit *listeMessages;
-    QListView *conectedList;
     QHBoxLayout *horizontalLayout_2;
     QLabel *label_3;
     QLineEdit *pseudo;
@@ -122,18 +128,54 @@ public:
 
         verticalLayout_2->addLayout(horizontalLayout);
 
+        horizontalLayout_4 = new QHBoxLayout();
+        horizontalLayout_4->setObjectName(QString::fromUtf8("horizontalLayout_4"));
+        label_7 = new QLabel(chat2);
+        label_7->setObjectName(QString::fromUtf8("label_7"));
+
+        horizontalLayout_4->addWidget(label_7);
+
+        usernameValue = new QLineEdit(chat2);
+        usernameValue->setObjectName(QString::fromUtf8("usernameValue"));
+        QSizePolicy sizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
+        sizePolicy.setHorizontalStretch(0);
+        sizePolicy.setVerticalStretch(0);
+        sizePolicy.setHeightForWidth(usernameValue->sizePolicy().hasHeightForWidth());
+        usernameValue->setSizePolicy(sizePolicy);
+        usernameValue->setMaximumSize(QSize(200, 16777215));
+        usernameValue->setLayoutDirection(Qt::RightToLeft);
+
+        horizontalLayout_4->addWidget(usernameValue);
+
+        horizontalSpacer_2 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        horizontalLayout_4->addItem(horizontalSpacer_2);
+
+        updateButton = new QPushButton(chat2);
+        updateButton->setObjectName(QString::fromUtf8("updateButton"));
+
+        horizontalLayout_4->addWidget(updateButton);
+
+
+        verticalLayout_2->addLayout(horizontalLayout_4);
+
+        folderButton = new QPushButton(chat2);
+        folderButton->setObjectName(QString::fromUtf8("folderButton"));
+
+        verticalLayout_2->addWidget(folderButton);
+
         horizontalLayout_3 = new QHBoxLayout();
         horizontalLayout_3->setObjectName(QString::fromUtf8("horizontalLayout_3"));
+        playlist = new QListView(chat2);
+        playlist->setObjectName(QString::fromUtf8("playlist"));
+
+        horizontalLayout_3->addWidget(playlist);
+
         listeMessages = new QTextEdit(chat2);
         listeMessages->setObjectName(QString::fromUtf8("listeMessages"));
         listeMessages->setReadOnly(true);
 
         horizontalLayout_3->addWidget(listeMessages);
-
-        conectedList = new QListView(chat2);
-        conectedList->setObjectName(QString::fromUtf8("conectedList"));
-
-        horizontalLayout_3->addWidget(conectedList);
 
 
         verticalLayout_2->addLayout(horizontalLayout_3);
@@ -183,7 +225,10 @@ public:
         serveurIP->setText(QApplication::translate("chat2", "127.0.0.1", 0, QApplication::UnicodeUTF8));
         label_2->setText(QApplication::translate("chat2", "Port du serveur :", 0, QApplication::UnicodeUTF8));
         boutonConnexion->setText(QApplication::translate("chat2", "Connexion", 0, QApplication::UnicodeUTF8));
-        label_6->setText(QApplication::translate("chat2", "ZeroChat", 0, QApplication::UnicodeUTF8));
+        label_6->setText(QApplication::translate("chat2", "Music - Share", 0, QApplication::UnicodeUTF8));
+        label_7->setText(QApplication::translate("chat2", "<html><head/><body><p>Username:</p></body></html>", 0, QApplication::UnicodeUTF8));
+        updateButton->setText(QApplication::translate("chat2", "Conectados", 0, QApplication::UnicodeUTF8));
+        folderButton->setText(QApplication::translate("chat2", "Selecionar diretorio de musica", 0, QApplication::UnicodeUTF8));
         label_3->setText(QApplication::translate("chat2", "Pseudo :", 0, QApplication::UnicodeUTF8));
         label_4->setText(QApplication::translate("chat2", "Message :", 0, QApplication::UnicodeUTF8));
         boutonEnvoyer->setText(QApplication::translate("chat2", "Envoyer", 0, QApplication::UnicodeUTF8));

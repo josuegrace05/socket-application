@@ -6,7 +6,7 @@
 ** WARNING! All changes made in this file will be lost!
 *****************************************************************************/
 
-#include "../Client/client.h"
+#include "../Server/client.h"
 #if !defined(Q_MOC_OUTPUT_REVISION)
 #error "The header file 'client.h' doesn't include <QObject>."
 #elif Q_MOC_OUTPUT_REVISION != 63
@@ -22,58 +22,26 @@ static const uint qt_meta_data_Client[] = {
        6,       // revision
        0,       // classname
        0,    0, // classinfo
-      10,   14, // methods
+       0,    0, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
        0,       // flags
        0,       // signalCount
 
- // slots: signature, parameters, type, tag, flags
-       8,    7,    7,    7, 0x08,
-      37,    7,    7,    7, 0x08,
-      64,    7,    7,    7, 0x08,
-      90,    7,    7,    7, 0x08,
-     117,    7,    7,    7, 0x08,
-     150,    7,    7,    7, 0x08,
-     176,    7,    7,    7, 0x08,
-     192,    7,    7,    7, 0x08,
-     203,    7,    7,    7, 0x08,
-     223,  216,    7,    7, 0x08,
-
        0        // eod
 };
 
 static const char qt_meta_stringdata_Client[] = {
-    "Client\0\0on_boutonConnexion_clicked()\0"
-    "on_boutonEnvoyer_clicked()\0"
-    "on_updateButton_clicked()\0"
-    "on_message_returnPressed()\0"
-    "on_usernameValue_returnPressed()\0"
-    "on_folderButton_clicked()\0donneesRecues()\0"
-    "connecte()\0deconnecte()\0erreur\0"
-    "erreurSocket(QAbstractSocket::SocketError)\0"
+    "Client\0"
 };
 
 void Client::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void **_a)
 {
-    if (_c == QMetaObject::InvokeMetaMethod) {
-        Q_ASSERT(staticMetaObject.cast(_o));
-        Client *_t = static_cast<Client *>(_o);
-        switch (_id) {
-        case 0: _t->on_boutonConnexion_clicked(); break;
-        case 1: _t->on_boutonEnvoyer_clicked(); break;
-        case 2: _t->on_updateButton_clicked(); break;
-        case 3: _t->on_message_returnPressed(); break;
-        case 4: _t->on_usernameValue_returnPressed(); break;
-        case 5: _t->on_folderButton_clicked(); break;
-        case 6: _t->donneesRecues(); break;
-        case 7: _t->connecte(); break;
-        case 8: _t->deconnecte(); break;
-        case 9: _t->erreurSocket((*reinterpret_cast< QAbstractSocket::SocketError(*)>(_a[1]))); break;
-        default: ;
-        }
-    }
+    Q_UNUSED(_o);
+    Q_UNUSED(_id);
+    Q_UNUSED(_c);
+    Q_UNUSED(_a);
 }
 
 const QMetaObjectExtraData Client::staticMetaObjectExtraData = {
@@ -107,11 +75,6 @@ int Client::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     _id = QWidget::qt_metacall(_c, _id, _a);
     if (_id < 0)
         return _id;
-    if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 10)
-            qt_static_metacall(this, _c, _id, _a);
-        _id -= 10;
-    }
     return _id;
 }
 QT_END_MOC_NAMESPACE

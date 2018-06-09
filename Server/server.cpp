@@ -9,22 +9,23 @@ Server::Server()
     layout->addWidget(m_exit);
     setLayout(layout);
 
-    setWindowTitle(tr("ZeroChat - Serveur"));
+    setWindowTitle(tr("PlayList-Share"));
 
-    m_server = new QTcpServer(this);
-    if(!m_server->listen(QHostAddress::Any, 50885))// Démarrage du serveur sur toutes les IP disponibles et sur le port 50585
+    m_server = new QTcpServer(this); //Created the Server with TCP procotol
+
+    if(!m_server->listen(QHostAddress::Any, 50885))// Started the server on all the IP availables and on the port 50585
     {
         //if not started correctly
-        m_info->setText(tr("Le serveur na pas pu demare. "
-                           "Raison: <br />") + m_server->errorString());
+        m_info->setText(tr("O servidor não conseguiu ligar. "
+                           "Motivo: <br />") + m_server->errorString());
     }
 
     else
     {
         //if started correctly
-        m_info->setText(tr("Le serveur a ete demarre sur le port <strong>") +
+        m_info->setText(tr("O servidor ligou na porta <strong>") +
                         QString::number(m_server->serverPort())
-                        + tr("</strong>.<br />Des clients peuvent maintenant se connecter."));
+                        + tr("</strong>.<br />Clientes agora podem se conectar."));
         connect(m_server,SIGNAL(newConnection()),this,SLOT(newConection()));
 
     }
@@ -37,14 +38,20 @@ void Server::newConection()
 {
 
     QTcpSocket *newClient = m_server->nextPendingConnection();//Get the address of the client connected
-
-    QString clientInfos = QString("<strong> New Client:</strong><br>IP Address: %1. Port: %2").arg(newClient->peerAddress().toString()).arg(newClient->peerPort());
-    sendToAll(clientInfos);
-
-    m_clients << newClient;
+    Client *user = new Client(newClient,newClient->peerAddress().toString());
+    m_clients << user;
 
     connect(newClient,SIGNAL(readyRead()),this, SLOT(receivedData()));//Signal emited when a client has sent a message
     connect(newClient, SIGNAL(disconnected()), this, SLOT(disconectClient()));//Signal emited when a client disconnected
+}
+void Server::updateUsername(QString username, QString ipAddress)
+{
+
+    QString tag("Usuario");
+
+    for(int i = 0; i < m_clients.size(); i++)
+        if(m_clients[i]->ipAddress() == ipAddress && m_clients[i]->username() == tag)
+            m_clients[i]->addUsername(QString("%1%2").arg("@").arg(username));
 }
 void Server::receivedData()
 {
@@ -60,7 +67,6 @@ void Server::receivedData()
         if(socket->bytesAvailable() < (int)sizeof(quint16)) //We check if we have sufficient data to get the size of the message
             return; //we dont have the entirely mess yet
         in >> m_messSize; //the entirely message arrived, we get back his size
-
     }
 
     if(socket->bytesAvailable() < m_messSize) //We received enough data to know the size of the message. Now we wait until we received all the data
@@ -69,18 +75,36 @@ void Server::receivedData()
     QString message; //here we have all the message. We get it.
     in >> message;
 
-    sendToAll(message);//send it to every body
+    if(message.contains("username",Qt::CaseInsensitive))
+        updateUsername(message.section(':',1,1),socket->peerAddress().toString());
+
+    else if(message.contains(("list"),Qt::CaseSensitive))
+    {
+        QString list;
+        for(int i = 0; i < m_clients.size(); i++)
+             list += QString("<strong>%1</strong> IP: %2<br>").arg(m_clients[i]->username()).arg(m_clients[i]->ipAddress());
+        sendToClient(socket,list);
+    }
+
     m_messSize = 0; //get back the message size to zero to receive messages of others clientes.
 }
 void Server::disconectClient()
 {
-    sendToAll(tr("<em>Un client vient de se deconnecter</em>"));
+
     QTcpSocket *socket = qobject_cast<QTcpSocket *>(sender());
     //determined who disconected
     if(socket == 0)//the object was not a TcpSocket
         return;
 
-    m_clients.removeOne(socket);
+
+    Client *deleteClient;
+    for(int i = 0; i < m_clients.size(); i++)
+        if(m_clients[i]->id() == socket)
+            deleteClient = m_clients[i];
+
+    sendToAll(QString("<em> O %1 se desconectou</em>").arg(deleteClient->username()));
+
+    m_clients.removeOne(deleteClient);
     socket->deleteLater();//We cannot do delete Client bcz it will bug Qt. We just say to him to delete it later.
 
 }
@@ -96,7 +120,19 @@ void Server::sendToAll(const QString &message)
     //send the package to all the clients conected to the server
 
     for(int i = 0; i < m_clients.size(); i++)
-        m_clients[i]->write(package);
+        m_clients[i]->id()->write(package);
+}
 
+void Server::sendToClient(QTcpSocket *id, const QString &message)
+{
+    QByteArray package;
+    QDataStream out(&package, QIODevice::WriteOnly);
 
+    out << (quint16) 0;//we write 0 at the begining to keep the space to write the size
+    out << message;//then we add the messsage
+    out.device()->seek(0);//we postioned in the begining of the package
+    out << (quint16)(package.size() - sizeof(quint16));//we delete the zero we keeped
+
+    //send the package to the client
+    id->write(package);
 }

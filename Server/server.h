@@ -6,6 +6,8 @@
 #include <QPushButton>
 #include <QLabel>
 #include <QtNetwork>
+#include <QMessageBox>
+#include "client.h"
 
 class Server : public QWidget
 {
@@ -14,18 +16,20 @@ class Server : public QWidget
 public:
     Server();
     void sendToAll(const QString &message);
+    void sendToClient(QTcpSocket *id, const QString &message);
 
 private slots:
     void newConection();
     void receivedData();
     void disconectClient();
+    void updateUsername(QString username, QString ipAddress);
 
 private:
     QPushButton *m_exit;
     QLabel *m_info;
 
     QTcpServer *m_server;
-    QList <QTcpSocket *> m_clients;
+    QList <Client *> m_clients;
     quint16 m_messSize;
 };
 
