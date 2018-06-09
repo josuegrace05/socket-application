@@ -22,7 +22,7 @@ static const uint qt_meta_data_Client[] = {
        6,       // revision
        0,       // classname
        0,    0, // classinfo
-      10,   14, // methods
+      11,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -34,12 +34,13 @@ static const uint qt_meta_data_Client[] = {
       37,    7,    7,    7, 0x08,
       64,    7,    7,    7, 0x08,
       90,    7,    7,    7, 0x08,
-     117,    7,    7,    7, 0x08,
+     123,    7,    7,    7, 0x08,
      150,    7,    7,    7, 0x08,
-     176,    7,    7,    7, 0x08,
-     192,    7,    7,    7, 0x08,
-     203,    7,    7,    7, 0x08,
-     223,  216,    7,    7, 0x08,
+     183,    7,    7,    7, 0x08,
+     209,    7,    7,    7, 0x08,
+     225,    7,    7,    7, 0x08,
+     236,    7,    7,    7, 0x08,
+     256,  249,    7,    7, 0x08,
 
        0        // eod
 };
@@ -48,6 +49,7 @@ static const char qt_meta_stringdata_Client[] = {
     "Client\0\0on_boutonConnexion_clicked()\0"
     "on_boutonEnvoyer_clicked()\0"
     "on_updateButton_clicked()\0"
+    "on_sharePlaylistButton_clicked()\0"
     "on_message_returnPressed()\0"
     "on_usernameValue_returnPressed()\0"
     "on_folderButton_clicked()\0donneesRecues()\0"
@@ -64,13 +66,14 @@ void Client::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void
         case 0: _t->on_boutonConnexion_clicked(); break;
         case 1: _t->on_boutonEnvoyer_clicked(); break;
         case 2: _t->on_updateButton_clicked(); break;
-        case 3: _t->on_message_returnPressed(); break;
-        case 4: _t->on_usernameValue_returnPressed(); break;
-        case 5: _t->on_folderButton_clicked(); break;
-        case 6: _t->donneesRecues(); break;
-        case 7: _t->connecte(); break;
-        case 8: _t->deconnecte(); break;
-        case 9: _t->erreurSocket((*reinterpret_cast< QAbstractSocket::SocketError(*)>(_a[1]))); break;
+        case 3: _t->on_sharePlaylistButton_clicked(); break;
+        case 4: _t->on_message_returnPressed(); break;
+        case 5: _t->on_usernameValue_returnPressed(); break;
+        case 6: _t->on_folderButton_clicked(); break;
+        case 7: _t->donneesRecues(); break;
+        case 8: _t->connecte(); break;
+        case 9: _t->deconnecte(); break;
+        case 10: _t->erreurSocket((*reinterpret_cast< QAbstractSocket::SocketError(*)>(_a[1]))); break;
         default: ;
         }
     }
@@ -108,9 +111,9 @@ int Client::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 10)
+        if (_id < 11)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 10;
+        _id -= 11;
     }
     return _id;
 }

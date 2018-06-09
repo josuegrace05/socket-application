@@ -53,6 +53,13 @@ void Server::updateUsername(QString username, QString ipAddress)
         if(m_clients[i]->ipAddress() == ipAddress && m_clients[i]->username() == tag)
             m_clients[i]->addUsername(QString("%1%2").arg("@").arg(username));
 }
+QTcpSocket* Server::isClientConnected(QString ipAddress)
+{
+    for(int i = 0; i < m_clients.size(); i++)
+        if(m_clients[i]->ipAddress() == ipAddress)
+            return m_clients[i]->id();
+    return NULL;
+}
 void Server::receivedData()
 {
     QTcpSocket *socket = qobject_cast<QTcpSocket *>(sender());
@@ -84,6 +91,15 @@ void Server::receivedData()
         for(int i = 0; i < m_clients.size(); i++)
              list += QString("<strong>%1</strong> IP: %2<br>").arg(m_clients[i]->username()).arg(m_clients[i]->ipAddress());
         sendToClient(socket,list);
+    }
+
+    else if(message.contains("playlist",Qt::CaseSensitive))
+    {
+        QTcpSocket *peerId = isClientConnected(message.section(':',1,1));
+        if(peerId != NULL)
+            sendToClient(peerId,message.section(':',2));
+        else
+            sendToClient(socket,QString("O <strong>%1</strong> nao esta conectado. Tente mais tarde<br>."));
     }
 
     m_messSize = 0; //get back the message size to zero to receive messages of others clientes.

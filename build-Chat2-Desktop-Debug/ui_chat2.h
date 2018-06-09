@@ -37,6 +37,7 @@ public:
     QLabel *label_2;
     QSpinBox *serveurPort;
     QPushButton *boutonConnexion;
+    QPushButton *disconnectButton;
     QSpacerItem *horizontalSpacer;
     QVBoxLayout *verticalLayout;
     QLabel *label_5;
@@ -52,16 +53,19 @@ public:
     QTextEdit *listeMessages;
     QHBoxLayout *horizontalLayout_2;
     QLabel *label_3;
-    QLineEdit *pseudo;
+    QLineEdit *userIp;
     QLabel *label_4;
     QLineEdit *message;
     QPushButton *boutonEnvoyer;
+    QHBoxLayout *horizontalLayout_5;
+    QPushButton *sharePlaylistButton;
+    QPushButton *ShareMusicButton;
 
     void setupUi(QWidget *chat2)
     {
         if (chat2->objectName().isEmpty())
             chat2->setObjectName(QString::fromUtf8("chat2"));
-        chat2->resize(628, 480);
+        chat2->resize(802, 526);
         QIcon icon;
         icon.addFile(QString::fromUtf8("chat.png"), QSize(), QIcon::Normal, QIcon::Off);
         chat2->setWindowIcon(icon);
@@ -99,6 +103,11 @@ public:
 
         horizontalLayout->addWidget(boutonConnexion);
 
+        disconnectButton = new QPushButton(chat2);
+        disconnectButton->setObjectName(QString::fromUtf8("disconnectButton"));
+
+        horizontalLayout->addWidget(disconnectButton);
+
         horizontalSpacer = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
 
         horizontalLayout->addItem(horizontalSpacer);
@@ -118,6 +127,7 @@ public:
         font.setBold(false);
         font.setWeight(50);
         label_6->setFont(font);
+        label_6->setLayoutDirection(Qt::LeftToRight);
         label_6->setAlignment(Qt::AlignCenter);
 
         verticalLayout->addWidget(label_6);
@@ -187,11 +197,11 @@ public:
 
         horizontalLayout_2->addWidget(label_3);
 
-        pseudo = new QLineEdit(chat2);
-        pseudo->setObjectName(QString::fromUtf8("pseudo"));
-        pseudo->setMaximumSize(QSize(100, 16777215));
+        userIp = new QLineEdit(chat2);
+        userIp->setObjectName(QString::fromUtf8("userIp"));
+        userIp->setMaximumSize(QSize(100, 16777215));
 
-        horizontalLayout_2->addWidget(pseudo);
+        horizontalLayout_2->addWidget(userIp);
 
         label_4 = new QLabel(chat2);
         label_4->setObjectName(QString::fromUtf8("label_4"));
@@ -212,6 +222,21 @@ public:
 
         verticalLayout_2->addLayout(horizontalLayout_2);
 
+        horizontalLayout_5 = new QHBoxLayout();
+        horizontalLayout_5->setObjectName(QString::fromUtf8("horizontalLayout_5"));
+        sharePlaylistButton = new QPushButton(chat2);
+        sharePlaylistButton->setObjectName(QString::fromUtf8("sharePlaylistButton"));
+
+        horizontalLayout_5->addWidget(sharePlaylistButton);
+
+        ShareMusicButton = new QPushButton(chat2);
+        ShareMusicButton->setObjectName(QString::fromUtf8("ShareMusicButton"));
+
+        horizontalLayout_5->addWidget(ShareMusicButton);
+
+
+        verticalLayout_2->addLayout(horizontalLayout_5);
+
 
         retranslateUi(chat2);
 
@@ -221,17 +246,20 @@ public:
     void retranslateUi(QWidget *chat2)
     {
         chat2->setWindowTitle(QApplication::translate("chat2", "ZeroChat - Client", 0, QApplication::UnicodeUTF8));
-        label->setText(QApplication::translate("chat2", "IP du serveur :", 0, QApplication::UnicodeUTF8));
+        label->setText(QApplication::translate("chat2", "<html><head/><body><p>IP do servidor :</p></body></html>", 0, QApplication::UnicodeUTF8));
         serveurIP->setText(QApplication::translate("chat2", "127.0.0.1", 0, QApplication::UnicodeUTF8));
-        label_2->setText(QApplication::translate("chat2", "Port du serveur :", 0, QApplication::UnicodeUTF8));
-        boutonConnexion->setText(QApplication::translate("chat2", "Connexion", 0, QApplication::UnicodeUTF8));
-        label_6->setText(QApplication::translate("chat2", "Music - Share", 0, QApplication::UnicodeUTF8));
+        label_2->setText(QApplication::translate("chat2", "<html><head/><body><p>Porta do servidor :</p></body></html>", 0, QApplication::UnicodeUTF8));
+        boutonConnexion->setText(QApplication::translate("chat2", "Connectar", 0, QApplication::UnicodeUTF8));
+        disconnectButton->setText(QApplication::translate("chat2", "Desconnectar", 0, QApplication::UnicodeUTF8));
+        label_6->setText(QApplication::translate("chat2", "<html><head/><body><p><span style=\" font-weight:600;\">MusicSharing</span></p></body></html>", 0, QApplication::UnicodeUTF8));
         label_7->setText(QApplication::translate("chat2", "<html><head/><body><p>Username:</p></body></html>", 0, QApplication::UnicodeUTF8));
         updateButton->setText(QApplication::translate("chat2", "Conectados", 0, QApplication::UnicodeUTF8));
         folderButton->setText(QApplication::translate("chat2", "Selecionar diretorio de musica", 0, QApplication::UnicodeUTF8));
-        label_3->setText(QApplication::translate("chat2", "Pseudo :", 0, QApplication::UnicodeUTF8));
-        label_4->setText(QApplication::translate("chat2", "Message :", 0, QApplication::UnicodeUTF8));
-        boutonEnvoyer->setText(QApplication::translate("chat2", "Envoyer", 0, QApplication::UnicodeUTF8));
+        label_3->setText(QApplication::translate("chat2", "<html><head/><body><p>IP do usuario :</p></body></html>", 0, QApplication::UnicodeUTF8));
+        label_4->setText(QApplication::translate("chat2", "<html><head/><body><p>Mensagem :</p></body></html>", 0, QApplication::UnicodeUTF8));
+        boutonEnvoyer->setText(QApplication::translate("chat2", "Mandar", 0, QApplication::UnicodeUTF8));
+        sharePlaylistButton->setText(QApplication::translate("chat2", "Compartilhar playlist", 0, QApplication::UnicodeUTF8));
+        ShareMusicButton->setText(QApplication::translate("chat2", "Compartilhar musicas", 0, QApplication::UnicodeUTF8));
     } // retranslateUi
 
 };

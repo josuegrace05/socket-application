@@ -23,6 +23,7 @@ private slots:
     void receivedData();
     void disconectClient();
     void updateUsername(QString username, QString ipAddress);
+    QTcpSocket* isClientConnected(QString ipAddress);
 
 private:
     QPushButton *m_exit;
