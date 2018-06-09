@@ -40,35 +40,31 @@ void Client::on_updateButton_clicked()
     out << (quint16) (cmd.size() - sizeof(quint16));
     socket->write(cmd);
 }
-// Envoi d'un message au serveur
+// Sending a chat message
 void Client::on_boutonEnvoyer_clicked()
 {
-    QByteArray playlist;
-    QDataStream out(&playlist, QIODevice::WriteOnly);
+    QByteArray chat;
+    QDataStream out(&chat, QIODevice::WriteOnly);
 
-    // Preparing the playlist to be sent
-    QDir dir("../myMusic");
-    dir.setFilter(QDir::Files);
-    dir.setSorting(QDir::Name);
-    QFileInfoList allMusic = dir.entryInfoList();
+    // Preparing the mensagem to be sent
 
-    //QString messageAEnvoyer = tr("<strong>") + pseudo->text() +tr("</strong> : ") + playlist->;
-    QString musicsNames = tr("<strong>") + " playlist:\n" + tr("</strong><br>");
-    for (int i = 0; i < allMusic.size(); i++)
+    if(userIp->text().isEmpty())
     {
-        QFileInfo musicInfo = allMusic.at(i);
-        musicsNames += QString("%1 ").arg(musicInfo.fileName());
-        musicsNames += "<br>";
+        QMessageBox::critical(this,"Erro","Precisa indentificar o endereco ip do destinatario");
+        return;
     }
+
+    QString message = "chat:"+ userIp->text() + ":" + tr("<strong>") + m_username + tr("</strong> : ") + messageText->text();
+
     out << (quint16) 0;
-    out << musicsNames;
+    out << message;
     out.device()->seek(0);
-    out << (quint16) (playlist.size() - sizeof(quint16));
+    out << (quint16) (message.size() - sizeof(quint16));
 
-    socket->write(playlist); // On envoie le paquet
+    socket->write(chat); // We send the chat.
 
-    message->clear(); // On vide la zone d'écriture du message
-    message->setFocus(); // Et on remet le curseur à l'intérieur
+    messageText->clear(); // We clear the messageBoxText
+    messageText->setFocus(); // We get back the cursor in
 }
 // Appuyer sur la touche Entrée a le même effet que cliquer sur le bouton "Envoyer"
 void Client::on_folderButton_clicked()
@@ -128,7 +124,7 @@ void Client::on_sharePlaylistButton_clicked()
     listeMessages->append("<em>Playlist mandado com sucesso!</em>");
 
 }
-void Client::on_message_returnPressed()
+void Client::on_messageText_returnPressed()
 {
    this->on_boutonEnvoyer_clicked();
 }
@@ -170,6 +166,7 @@ void Client::donneesRecues()
 // Ce slot est appelé lorsque la connexion au serveur a réussi
 void Client::connecte()
 {
+    m_username = usernameValue->text();
     listeMessages->append(tr("<em>Connectado com successo !</em>"));
     QByteArray username;
     QDataStream out(&username, QIODevice::WriteOnly);

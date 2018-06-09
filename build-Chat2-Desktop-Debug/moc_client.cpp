@@ -35,12 +35,12 @@ static const uint qt_meta_data_Client[] = {
       64,    7,    7,    7, 0x08,
       90,    7,    7,    7, 0x08,
      123,    7,    7,    7, 0x08,
-     150,    7,    7,    7, 0x08,
-     183,    7,    7,    7, 0x08,
-     209,    7,    7,    7, 0x08,
-     225,    7,    7,    7, 0x08,
-     236,    7,    7,    7, 0x08,
-     256,  249,    7,    7, 0x08,
+     154,    7,    7,    7, 0x08,
+     187,    7,    7,    7, 0x08,
+     213,    7,    7,    7, 0x08,
+     229,    7,    7,    7, 0x08,
+     240,    7,    7,    7, 0x08,
+     260,  253,    7,    7, 0x08,
 
        0        // eod
 };
@@ -50,7 +50,7 @@ static const char qt_meta_stringdata_Client[] = {
     "on_boutonEnvoyer_clicked()\0"
     "on_updateButton_clicked()\0"
     "on_sharePlaylistButton_clicked()\0"
-    "on_message_returnPressed()\0"
+    "on_messageText_returnPressed()\0"
     "on_usernameValue_returnPressed()\0"
     "on_folderButton_clicked()\0donneesRecues()\0"
     "connecte()\0deconnecte()\0erreur\0"
@@ -67,7 +67,7 @@ void Client::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void
         case 1: _t->on_boutonEnvoyer_clicked(); break;
         case 2: _t->on_updateButton_clicked(); break;
         case 3: _t->on_sharePlaylistButton_clicked(); break;
-        case 4: _t->on_message_returnPressed(); break;
+        case 4: _t->on_messageText_returnPressed(); break;
         case 5: _t->on_usernameValue_returnPressed(); break;
         case 6: _t->on_folderButton_clicked(); break;
         case 7: _t->donneesRecues(); break;

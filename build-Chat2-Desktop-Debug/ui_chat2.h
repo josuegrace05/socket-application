@@ -55,7 +55,7 @@ public:
     QLabel *label_3;
     QLineEdit *userIp;
     QLabel *label_4;
-    QLineEdit *message;
+    QLineEdit *messageText;
     QPushButton *boutonEnvoyer;
     QHBoxLayout *horizontalLayout_5;
     QPushButton *sharePlaylistButton;
@@ -208,10 +208,10 @@ public:
 
         horizontalLayout_2->addWidget(label_4);
 
-        message = new QLineEdit(chat2);
-        message->setObjectName(QString::fromUtf8("message"));
+        messageText = new QLineEdit(chat2);
+        messageText->setObjectName(QString::fromUtf8("messageText"));
 
-        horizontalLayout_2->addWidget(message);
+        horizontalLayout_2->addWidget(messageText);
 
         boutonEnvoyer = new QPushButton(chat2);
         boutonEnvoyer->setObjectName(QString::fromUtf8("boutonEnvoyer"));
@@ -251,7 +251,7 @@ public:
         label_2->setText(QApplication::translate("chat2", "<html><head/><body><p>Porta do servidor :</p></body></html>", 0, QApplication::UnicodeUTF8));
         boutonConnexion->setText(QApplication::translate("chat2", "Connectar", 0, QApplication::UnicodeUTF8));
         disconnectButton->setText(QApplication::translate("chat2", "Desconnectar", 0, QApplication::UnicodeUTF8));
-        label_6->setText(QApplication::translate("chat2", "<html><head/><body><p><span style=\" font-weight:600;\">MusicSharing</span></p></body></html>", 0, QApplication::UnicodeUTF8));
+        label_6->setText(QApplication::translate("chat2", "<html><head/><body><p><span style=\" font-weight:600;\">Xarefy</span></p></body></html>", 0, QApplication::UnicodeUTF8));
         label_7->setText(QApplication::translate("chat2", "<html><head/><body><p>Username:</p></body></html>", 0, QApplication::UnicodeUTF8));
         updateButton->setText(QApplication::translate("chat2", "Conectados", 0, QApplication::UnicodeUTF8));
         folderButton->setText(QApplication::translate("chat2", "Selecionar diretorio de musica", 0, QApplication::UnicodeUTF8));

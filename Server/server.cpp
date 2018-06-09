@@ -3,20 +3,20 @@
 Server::Server()
 {
     QVBoxLayout *layout = new QVBoxLayout(this);
-    m_exit = new QPushButton(tr("Quitter"));
+    m_exit = new QPushButton(tr("Sair"));
     m_info = new QLabel;
     layout->addWidget(m_info);
     layout->addWidget(m_exit);
     setLayout(layout);
 
-    setWindowTitle(tr("PlayList-Share"));
+    setWindowTitle(tr("Xarefy"));
 
     m_server = new QTcpServer(this); //Created the Server with TCP procotol
 
     if(!m_server->listen(QHostAddress::Any, 50885))// Started the server on all the IP availables and on the port 50585
     {
         //if not started correctly
-        m_info->setText(tr("O servidor não conseguiu ligar. "
+        m_info->setText(tr("O servidor nao conseguiu ligar. "
                            "Motivo: <br />") + m_server->errorString());
     }
 
@@ -53,16 +53,20 @@ void Server::updateUsername(QString username, QString ipAddress)
         if(m_clients[i]->ipAddress() == ipAddress && m_clients[i]->username() == tag)
             m_clients[i]->addUsername(QString("%1%2").arg("@").arg(username));
 }
-Client* Server::isClientConnected(QString ipAddress)
+Client* Server::searchClient(QString ipAddress)
 {
     for(int i = 0; i < m_clients.size(); i++)
         if(m_clients[i]->ipAddress() == ipAddress)
             return m_clients[i];
     return NULL;
 }
+
 void Server::receivedData()
 {
     QTcpSocket *socket = qobject_cast<QTcpSocket *>(sender());
+    Client *peerId;
+    Client *senderId;
+
     if(socket == 0)//we didnt recognize who sent the message
         return;
     //else get back the message
@@ -96,11 +100,23 @@ void Server::receivedData()
     else if(message.contains("playlist",Qt::CaseSensitive))
     {
 
-        Client *peerId = isClientConnected(message.section(':',1,1));
+        peerId = searchClient(message.section(':',1,1));
+        senderId = searchClient(socket->peerAddress().toString());
+
         if(peerId != NULL)
-            sendToClient(peerId->id(),QString("%1 playlist:<br>%2").arg(peerId->username()).arg(message.section(':',2)));
+            sendToClient(peerId->id(),QString("%1 playlist:<br>%2").arg(senderId->username()).arg(message.section(':',2)));
         else
-            sendToClient(socket,QString("O <strong>%1</strong> nao esta conectado. Tente mais tarde<br>."));
+            sendToClient(socket,QString("O <strong>%1</strong> nao esta conectado. Tente mais tarde<br>.").arg(peerId->username()));
+    }
+
+    else if(message.contains("chat"),Qt::CaseSensitive)
+    {
+        peerId = searchClient(message.section(':',1,1));
+
+        if(peerId != NULL)
+            sendToClient(peerId->id(),message.section(':',2));
+        else
+            sendToClient(socket,QString("O <strong>%1</strong> nao esta conectado. Tente mais tarde<br>.").arg(peerId->username()));
     }
 
     m_messSize = 0; //get back the message size to zero to receive messages of others clientes.

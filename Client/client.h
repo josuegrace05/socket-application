@@ -20,7 +20,7 @@ private slots:
         void on_boutonEnvoyer_clicked();
         void on_updateButton_clicked();
         void on_sharePlaylistButton_clicked();
-        void on_message_returnPressed();
+        void on_messageText_returnPressed();
         void on_usernameValue_returnPressed();
         void on_folderButton_clicked();
         void donneesRecues();
@@ -29,7 +29,8 @@ private slots:
         void erreurSocket(QAbstractSocket::SocketError erreur);
 
     private:
-        QTcpSocket *socket; // Représente le serveur
+        QTcpSocket *socket; // Represent the server
+        QString m_username;
         QStringListModel *m_playlistModel;
         quint16 tailleMessage;
 };
