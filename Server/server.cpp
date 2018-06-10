@@ -116,9 +116,17 @@ void Server::receivedData()
         if(peerId != NULL)
             sendToClient(peerId->id(),message.section(':',2));
         else
-            sendToClient(socket,QString("O <strong>%1</strong> nao esta conectado. Tente mais tarde<br>.").arg(peerId->username()));
+            sendToClient(socket,"O usuario requesitado nao se encitra conectado na rede.");
     }
+    else if(message.contains("musics"),Qt::CaseSensitive)
+    {
+        peerId = searchClient(message.section(':',1,1));
 
+        if(peerId != NULL)
+            sendToClient(peerId->id(),"musics:"+ message.section(':',2));
+        else
+            sendToClient(socket,"O usuario requesitado nao se encitra conectado na rede.);
+    }
     m_messSize = 0; //get back the message size to zero to receive messages of others clientes.
 }
 void Server::disconectClient()

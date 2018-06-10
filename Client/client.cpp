@@ -56,6 +56,9 @@ void Client::on_boutonEnvoyer_clicked()
 
     QString message = "chat:"+ userIp->text() + ":" + tr("<strong>") + m_username + tr("</strong> : ") + messageText->text();
 
+    if(message.contains("!quero",Qt::CaseSensitive))
+        m_wantedMusic = message.split(',',QString::SkipEmptyParts);
+
     out << (quint16) 0;
     out << message;
     out.device()->seek(0);
@@ -67,9 +70,55 @@ void Client::on_boutonEnvoyer_clicked()
     messageText->setFocus(); // We get back the cursor in
 }
 // Appuyer sur la touche Entrée a le même effet que cliquer sur le bouton "Envoyer"
+void Client::on_ShareMusicButton_clicked()
+{
+
+        QItemSelectionModel *selectedMusics = playlist->selectionModel();
+        QModelIndexList selectionList = selectedMusics->selectedIndexes();
+        QString musicsTobeShared;
+
+        QList<QString> musics;
+
+        for (int i = 0 ; i < selectionList.size() ; i++)
+        {
+            QVariant selectedMusic = m_playlistModel->data(selectionList[i], Qt::DisplayRole);
+            musicsTobeShared = selectedMusic.toString();
+            QFile file(m_musicDiretory+"/"+musicsTobeShared);
+
+            if(file.open(QIODevice::ReadOnly))
+            {
+                QTextStream in(&file);
+                QString line = in.readAll();
+                line += ";";
+                musics << line;
+                file.close();
+            }
+
+            else
+                QMessageBox(this,"Erro","Não conseguiu abrir o arquivo de musica");
+        }
+
+        QByteArray package;
+        QDataStream out(&package,QIODevice::WriteOnly);
+        QString cmd("musics:");
+        cmd += userIp->text()+":";
+
+        for(int i = 0; i < musics.size(); i++)
+            cmd += musics[i];
+
+        out << (quint16)0;
+        out << cmd;
+        out.device()->seek(0);
+        out << (quint16) (package.size() - sizeof(quint16));
+
+        socket->write(package);
+        listeMessages->append("Musicas compartilhadas com successo");
+
+}
 void Client::on_folderButton_clicked()
 {
    QString musicFolder = QFileDialog::getExistingDirectory(this);
+   m_musicDiretory = musicFolder;
 
    QDir dir(musicFolder);
    dir.setFilter(QDir::Files);
@@ -156,6 +205,22 @@ void Client::donneesRecues()
     // Si on arrive jusqu'à cette ligne, on peut récupérer le message entier
     QString messageRecu;
     in >> messageRecu;
+
+    if(messageRecu.contains("musics"))
+    {
+        for(int i = 0; i < m_wantedMusic.size(); i++)
+        {
+            QFile file(m_musicDiretory+"/"+m_wantedMusic[i]);
+
+            if(file.open(QIODevice::WriteOnly))
+            {
+                QTextStream out(&file);
+                out << messageRecu.section(';',i,i);
+            }
+
+            file.close();
+        }
+    }
 
     // On affiche le message sur la zone de Chat
     listeMessages->append(messageRecu);
