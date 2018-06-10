@@ -120,11 +120,12 @@ void Server::receivedData()
     }
     else if(message.contains("musics"),Qt::CaseSensitive)
     {
-        QMessageBox::critical(this,"Test",message.section(':',0,0));
-        peerId = searchClient(message.section(':',0,0));
+
+        peerId = searchClient(message.section(':',1,1));
 
         if(peerId != NULL)
         {
+            message.remove(peerId->ipAddress()+":",Qt::CaseSensitive);
             sendToClient(peerId->id(),message.section(':',1));
 
         }
