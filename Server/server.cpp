@@ -125,7 +125,7 @@ void Server::receivedData()
         if(peerId != NULL)
             sendToClient(peerId->id(),"musics:"+ message.section(':',2));
         else
-            sendToClient(socket,"O usuario requesitado nao se encitra conectado na rede.);
+            sendToClient(socket,"O usuario requesitado nao se encitra conectado na rede.");
     }
     m_messSize = 0; //get back the message size to zero to receive messages of others clientes.
 }

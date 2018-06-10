@@ -56,9 +56,12 @@ void Client::on_boutonEnvoyer_clicked()
 
     QString message = "chat:"+ userIp->text() + ":" + tr("<strong>") + m_username + tr("</strong> : ") + messageText->text();
 
-    if(message.contains("!quero",Qt::CaseSensitive))
-        m_wantedMusic = message.split(',',QString::SkipEmptyParts);
+    if(messageText->text().contains("quero:",Qt::CaseSensitive))
+    {
+        QString aux = messageText->text().section(':',1);
+        m_wantedMusic = aux.split(',',QString::SkipEmptyParts);
 
+    }
     out << (quint16) 0;
     out << message;
     out.device()->seek(0);
@@ -76,8 +79,8 @@ void Client::on_ShareMusicButton_clicked()
         QItemSelectionModel *selectedMusics = playlist->selectionModel();
         QModelIndexList selectionList = selectedMusics->selectedIndexes();
         QString musicsTobeShared;
+        QString musicsLine;
 
-        QList<QString> musics;
 
         for (int i = 0 ; i < selectionList.size() ; i++)
         {
@@ -87,24 +90,21 @@ void Client::on_ShareMusicButton_clicked()
 
             if(file.open(QIODevice::ReadOnly))
             {
-                QTextStream in(&file);
-                QString line = in.readAll();
-                line += ";";
-                musics << line;
+                QDataStream in(&file);
+                in >> musicsLine;
+                musicsLine += ";";
                 file.close();
             }
 
             else
-                QMessageBox(this,"Erro","Não conseguiu abrir o arquivo de musica");
+                QMessageBox::critical(this,"Erro","Não conseguiu abrir o arquivo de musica");
         }
 
         QByteArray package;
         QDataStream out(&package,QIODevice::WriteOnly);
         QString cmd("musics:");
         cmd += userIp->text()+":";
-
-        for(int i = 0; i < musics.size(); i++)
-            cmd += musics[i];
+        cmd += musicsLine;
 
         out << (quint16)0;
         out << cmd;
@@ -206,21 +206,24 @@ void Client::donneesRecues()
     QString messageRecu;
     in >> messageRecu;
 
-    if(messageRecu.contains("musics"))
-    {
+    //if(messageRecu.contains("musics",Qt::CaseInsensitive))
+    //{
+
+        //QMessageBox::critical(this,"Teste",QString("%1").arg(m_wantedMusic.size()));
         for(int i = 0; i < m_wantedMusic.size(); i++)
         {
             QFile file(m_musicDiretory+"/"+m_wantedMusic[i]);
-
+            QMessageBox::critical(this,"Teste",m_musicDiretory+"/"+m_wantedMusic[i]);
             if(file.open(QIODevice::WriteOnly))
             {
+                QMessageBox::critical(this,"Teste","Entrou");
                 QTextStream out(&file);
                 out << messageRecu.section(';',i,i);
             }
 
             file.close();
         }
-    }
+    //}
 
     // On affiche le message sur la zone de Chat
     listeMessages->append(messageRecu);
