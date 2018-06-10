@@ -102,8 +102,8 @@ void Client::on_ShareMusicButton_clicked()
 
         QByteArray package;
         QDataStream out(&package,QIODevice::WriteOnly);
-        QString cmd("musics:");
-        cmd += userIp->text()+":";
+        QString cmd(userIp->text()+":");
+        cmd += "musics:";
         cmd += musicsLine;
 
         out << (quint16)0;
@@ -206,9 +206,10 @@ void Client::donneesRecues()
     QString messageRecu;
     in >> messageRecu;
 
-    //if(messageRecu.contains("musics",Qt::CaseInsensitive))
-    //{
+    if(messageRecu.contains("musics",Qt::CaseInsensitive))
+    {
 
+        messageRecu = messageRecu.section(':',1);
         //QMessageBox::critical(this,"Teste",QString("%1").arg(m_wantedMusic.size()));
         for(int i = 0; i < m_wantedMusic.size(); i++)
         {
@@ -217,13 +218,13 @@ void Client::donneesRecues()
             if(file.open(QIODevice::WriteOnly))
             {
                 QMessageBox::critical(this,"Teste","Entrou");
-                QTextStream out(&file);
+                QDataStream out(&file);
                 out << messageRecu.section(';',i,i);
             }
 
             file.close();
         }
-    //}
+    }
 
     // On affiche le message sur la zone de Chat
     listeMessages->append(messageRecu);

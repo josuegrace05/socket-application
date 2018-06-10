@@ -120,10 +120,13 @@ void Server::receivedData()
     }
     else if(message.contains("musics"),Qt::CaseSensitive)
     {
-        peerId = searchClient(message.section(':',1,1));
+        peerId = searchClient(message.section(':',0,0));
 
         if(peerId != NULL)
-            sendToClient(peerId->id(),"musics:"+ message.section(':',2));
+        {
+            sendToClient(peerId->id(),message.section(':',1));
+
+        }
         else
             sendToClient(socket,"O usuario requesitado nao se encitra conectado na rede.");
     }
