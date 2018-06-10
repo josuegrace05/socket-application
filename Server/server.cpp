@@ -120,6 +120,7 @@ void Server::receivedData()
     }
     else if(message.contains("musics"),Qt::CaseSensitive)
     {
+        QMessageBox::critical(this,"Test",message.section(':',0,0));
         peerId = searchClient(message.section(':',0,0));
 
         if(peerId != NULL)

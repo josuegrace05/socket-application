@@ -102,8 +102,8 @@ void Client::on_ShareMusicButton_clicked()
 
         QByteArray package;
         QDataStream out(&package,QIODevice::WriteOnly);
-        QString cmd(userIp->text()+":");
-        cmd += "musics:";
+        QString cmd(userIp->text());
+        cmd += ":musics:";
         cmd += musicsLine;
 
         out << (quint16)0;
