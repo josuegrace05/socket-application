@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>ZeroChat - Client</string>
+   <string>XareChat</string>
   </property>
   <property name="windowIcon">
    <iconset>
@@ -67,7 +67,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="boutonConnexion">
+      <widget class="QPushButton" name="connetionButton">
        <property name="text">
         <string>Connectar</string>
        </property>
@@ -115,7 +115,7 @@
           <enum>Qt::LeftToRight</enum>
          </property>
          <property name="text">
-          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Xarefy&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;XareChat&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
          </property>
          <property name="alignment">
           <set>Qt::AlignCenter</set>
@@ -177,19 +177,12 @@
     </layout>
    </item>
    <item>
-    <widget class="QPushButton" name="folderButton">
-     <property name="text">
-      <string>Selecionar diretorio de musica</string>
-     </property>
-    </widget>
-   </item>
-   <item>
     <layout class="QHBoxLayout" name="horizontalLayout_3">
      <item>
-      <widget class="QListView" name="playlist"/>
+      <widget class="QTextEdit" name="logText"/>
      </item>
      <item>
-      <widget class="QTextEdit" name="listeMessages">
+      <widget class="QTextEdit" name="listMessages">
        <property name="readOnly">
         <bool>true</bool>
        </property>
@@ -234,24 +227,6 @@
        <property name="icon">
         <iconset>
          <normaloff>chat.png</normaloff>chat.png</iconset>
-       </property>
-      </widget>
-     </item>
-    </layout>
-   </item>
-   <item>
-    <layout class="QHBoxLayout" name="horizontalLayout_5">
-     <item>
-      <widget class="QPushButton" name="sharePlaylistButton">
-       <property name="text">
-        <string>Compartilhar playlist</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="ShareMusicButton">
-       <property name="text">
-        <string>Compartilhar musicas</string>
        </property>
       </widget>
      </item>

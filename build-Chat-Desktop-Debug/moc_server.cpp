@@ -22,7 +22,7 @@ static const uint qt_meta_data_Server[] = {
        6,       // revision
        0,       // classname
        0,    0, // classinfo
-       5,   14, // methods
+       3,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -33,17 +33,13 @@ static const uint qt_meta_data_Server[] = {
        8,    7,    7,    7, 0x08,
       23,    7,    7,    7, 0x08,
       38,    7,    7,    7, 0x08,
-      75,   56,    7,    7, 0x08,
-     125,  115,  107,    7, 0x08,
 
        0        // eod
 };
 
 static const char qt_meta_stringdata_Server[] = {
     "Server\0\0newConection()\0receivedData()\0"
-    "disconectClient()\0username,ipAddress\0"
-    "updateUsername(QString,QString)\0Client*\0"
-    "ipAddress\0searchClient(QString)\0"
+    "disconectClient()\0"
 };
 
 void Server::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void **_a)
@@ -55,12 +51,10 @@ void Server::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void
         case 0: _t->newConection(); break;
         case 1: _t->receivedData(); break;
         case 2: _t->disconectClient(); break;
-        case 3: _t->updateUsername((*reinterpret_cast< QString(*)>(_a[1])),(*reinterpret_cast< QString(*)>(_a[2]))); break;
-        case 4: { Client* _r = _t->searchClient((*reinterpret_cast< QString(*)>(_a[1])));
-            if (_a[0]) *reinterpret_cast< Client**>(_a[0]) = _r; }  break;
         default: ;
         }
     }
+    Q_UNUSED(_a);
 }
 
 const QMetaObjectExtraData Server::staticMetaObjectExtraData = {
@@ -95,9 +89,9 @@ int Server::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 5)
+        if (_id < 3)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 5;
+        _id -= 3;
     }
     return _id;
 }

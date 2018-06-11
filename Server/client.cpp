@@ -6,10 +6,7 @@ Client::Client(QTcpSocket *id, QString ip, QString username, QWidget *parent) : 
     m_ip = ip;
     m_username = username;
 }
-void Client::addPlaylist(QList<QString> playlist)
-{
-    m_playlist = playlist;
-}
+
 void Client::addUsername(QString username)
 {
     m_username = username;

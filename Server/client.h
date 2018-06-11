@@ -4,13 +4,14 @@
 #include <QWidget>
 #include <QTcpSocket>
 
+//Definiton of a client conected in the server
 class Client : public QWidget
 {
     Q_OBJECT
 public:
     explicit Client(QTcpSocket* id, QString ip, QString username = "Usuario", QWidget *parent = nullptr);
     ~Client();
-    void addPlaylist(QList <QString> playlist);
+
     void addUsername(QString username);
     QString username();
     QString ipAddress();
@@ -23,8 +24,8 @@ public slots:
 
 private :
 
+    //Client atributes
     QString m_username;
-    QList <QString> m_playlist;
     QString m_ip;
     QTcpSocket* m_id;
 };

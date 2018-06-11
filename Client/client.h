@@ -16,26 +16,21 @@ class Client : public QWidget, private Ui::chat2
 public:
     Client();
 private slots:
-        void on_boutonConnexion_clicked();
+        void on_connetionButton_clicked();
+        void on_disconnectButton_clicked();
         void on_boutonEnvoyer_clicked();
         void on_updateButton_clicked();
-        void on_ShareMusicButton_clicked();
-        void on_sharePlaylistButton_clicked();
         void on_messageText_returnPressed();
         void on_usernameValue_returnPressed();
-        void on_folderButton_clicked();
-        void donneesRecues();
-        void connecte();
-        void deconnecte();
-        void erreurSocket(QAbstractSocket::SocketError erreur);
+        void receivedData();
+        void connected();
+        void disconected();
+        void errorSocket(QAbstractSocket::SocketError erreur);
 
     private:
         QTcpSocket *socket; // Represent the server
         QString m_username;
-        QString m_musicDiretory;
-        QStringList m_wantedMusic;
-        QStringListModel *m_playlistModel;
-        quint16 tailleMessage;
+        quint16 m_messageSize;
 };
 
 #endif // CLIENT_H
