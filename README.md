@@ -25,7 +25,7 @@ Feito isso, é preciso compliar os programas sevidor e cliente separadamente.
   > qmake Chat.pro
   
   * Um Makefile será criado. Execute-o.
-  > Makefile
+  > make
   
   * O arquivo binário do programa será criado. Execute:
   > ./Chat
