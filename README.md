@@ -33,3 +33,6 @@ Feito isso, é preciso compliar os programas sevidor e cliente separadamente.
   * O programa servidor será lançado.
 * Para executar o programa cliente
 Entrar na pasta cliente e repetir o mesmo processo substituindo Chat por Chat2.
+
+### Observação:
+Para o bom funcionamento do programa, é recomendado que os clientes estejam em máquinas diferentes para diferenciar seus ips. caso contrário, a mensagem será enviada para ele mesmo.
